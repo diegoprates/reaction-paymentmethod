@@ -2,7 +2,7 @@ Package.describe({
   summary: "Reaction Payment Method - A generic 'no-process' payment method for you to fork and make your own",
   name: "reactioncommerce:reaction-paymentmethod",
   version: "0.0.1",
-  git: "https://github.com/zenweasel/reaction-paymentmethod.git"
+  git: "https://github.com/reactioncommerce/reaction-paymentmethod.git"
 });
 
 
@@ -27,7 +27,7 @@ Package.onUse(function (api) {
 
   api.use("reactioncommerce:core@0.10.1");
 
-  api.addFiles("server/register.js", ["server"]); // register as a reaction package
+  api.addFiles(["server/register.js", "server/generic.js"], ["server"]); // register as a reaction package
 
   api.addFiles([
     "common/collections.js",

@@ -1,7 +1,14 @@
 /* eslint camelcase: 0 */
 
 Meteor.methods({
-  genericSubmit: function (transactionType, cardData, paymentData) {
+  /**
+   * Submit a card for Authorization
+   * @param  {Object} transactionType authorize or capture
+   * @param  {Object} cardData card Details
+   * @param  {Object} paymentData
+   * @return {Object} results normalized
+   */
+  "genericSubmit": function (transactionType, cardData, paymentData) {
     check(transactionType, String);
     check(cardData, {
       name: String,
@@ -11,19 +18,22 @@ Meteor.methods({
       cvv2: ValidCVV,
       type: String
     });
+
     check(paymentData, {
       total: String,
       currency: String
     });
 
     // Place your call to your provider to authorize a transaction here
-    let response = {}; // place the raw results in the response object
+    let response = {
+      amount: total,
+      transactionId: Random.id()
+    }; // place the raw results in the response object
 
     let result = {
       saved: true,
       response: response
     };
-
     return result;
   },
 
@@ -42,12 +52,19 @@ Meteor.methods({
     };
     return result;
   },
-  "generic/refund/create": function(paymentMethod, amount) {
+  /**
+   * Create a refund
+   * @param  {Object} paymentMethod object
+   * @param  {Number} amount
+   * @return {Object} result
+   */
+  "generic/refund/create": function (paymentMethod, amount) {
     check(paymentMethod, ReactionCore.Schemas.PaymentMethod);
     check(amount, Number);
     // Place your call to your respective provider for a refund here
-    let response = {};
-
+    let response = {
+      amount: amount
+    };
     let results = {
       saved: true,
       response: response
