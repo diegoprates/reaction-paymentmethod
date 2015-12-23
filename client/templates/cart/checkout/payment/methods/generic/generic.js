@@ -1,4 +1,3 @@
-
 /* eslint camelcase: 0 */
 
 uiEnd = function(template, buttonText) {

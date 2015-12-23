@@ -1,34 +1,34 @@
-Template.stripeSettings.helpers({
-  packageData: function() {
+Template.genericSettings.helpers({
+  packageData: function () {
     return ReactionCore.Collections.Packages.findOne({
-      name: "reaction-stripe"
+      name: "reaction-paymentmethod"
     });
   }
 });
 
-Template.stripe.helpers({
-  packageData: function() {
+Template.generic.helpers({
+  packageData: function () {
     return ReactionCore.Collections.Packages.findOne({
-      name: "reaction-stripe"
+      name: "reaction-paymentmethod"
     });
   }
 });
 
-Template.stripe.events({
-  "click [data-event-action=showStripeSettings]": function () {
+Template.generic.events({
+  "click [data-event-action=showGenericSettings]": function () {
     ReactionCore.showActionView();
   }
 });
 
 AutoForm.hooks({
-  "stripe-update-form": {
-    onSuccess: function(operation, result, template) {
+  "generic-update-form": {
+    onSuccess: function (operation, result, template) {
       Alerts.removeSeen();
-      return Alerts.add("Stripe settings saved.", "success");
+      return Alerts.add("Generic Payment Method settings saved.", "success");
     },
-    onError: function(operation, error, template) {
+    onError: function (operation, error, template) {
       Alerts.removeSeen();
-      return Alerts.add("Stripe settings update failed. " + error, "danger");
+      return Alerts.add("Generic Payment Method settings update failed. " + error, "danger");
     }
   }
 });
