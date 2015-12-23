@@ -1,0 +1,5 @@
+.build*
+versions.json
+.versions
+.DS_Store
+.idea
