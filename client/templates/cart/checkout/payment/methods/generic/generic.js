@@ -58,7 +58,7 @@ AutoForm.addHooks("generic-payment-form", {
             transactionId: transaction.transactionId,
             currency: transaction.currency,
             amount: transaction.response.amount,
-            status: "new",
+            status: transaction.status,
             mode: "authorize",
             createdAt: new Date(),
             transactions: []
