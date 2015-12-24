@@ -1,7 +1,9 @@
+/* eslint camelcase: 0 */
+
 ReactionCore.registerPackage({
   label: "GenericPayment",
   name: "reaction-paymentmethod",
-  icon: "fa fa-cc-stripe",
+  icon: "fa fa-cc-generic",
   autoEnable: true,
   settings: {
     mode: false,

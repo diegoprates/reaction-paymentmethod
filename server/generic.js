@@ -5,7 +5,7 @@ Meteor.methods({
    * Submit a card for Authorization
    * @param  {Object} transactionType authorize or capture
    * @param  {Object} cardData card Details
-   * @param  {Object} paymentData
+   * @param  {Object} paymentData The details of the Payment Needed
    * @return {Object} results normalized
    */
   "genericSubmit": function (transactionType, cardData, paymentData) {
@@ -23,17 +23,32 @@ Meteor.methods({
       total: String,
       currency: String
     });
+    let total = parseFloat(paymentData.total);
+    let result;
+    try {
+      // This method will never fail, but you should place your call to the provider here
+      // wrapped in a try/catch to throw an error if the call fails
+      let transactionId = Random.id();
 
-    // Place your call to your provider to authorize a transaction here
-    let response = {
-      amount: total,
-      transactionId: Random.id()
-    }; // place the raw results in the response object
-
-    let result = {
-      saved: true,
-      response: response
-    };
+      result = {
+        saved: true,
+        status: "created",
+        currency: paymentData.currency,
+        amount: total,
+        transactionId: transactionId,
+        response: {
+          amount: total,
+          transactionId: transactionId,
+          currency: paymentData.currency
+        }
+      };
+    } catch (error) {
+      ReactionCore.Log.warn(error);
+      result = {
+        saved: false,
+        error: error
+      };
+    }
     return result;
   },
 
@@ -52,10 +67,11 @@ Meteor.methods({
     };
     return result;
   },
+
   /**
    * Create a refund
    * @param  {Object} paymentMethod object
-   * @param  {Number} amount
+   * @param  {Number} amount The amount to be refunded
    * @return {Object} result
    */
   "generic/refund/create": function (paymentMethod, amount) {

@@ -39,6 +39,7 @@ AutoForm.addHooks("generic-payment-form", {
       type: getCardType(doc.cardNumber)
     };
     let storedCard = form.type.charAt(0).toUpperCase() + form.type.slice(1) + " " + doc.cardNumber.slice(-4);
+
     Meteor.GenericPayment.authorize(form, {
       total: ReactionCore.Collections.Cart.findOne().cartTotal(),
       currency: ReactionCore.Collections.Shops.findOne().currency
@@ -54,10 +55,10 @@ AutoForm.addHooks("generic-payment-form", {
             processor: "Generic",
             storedCard: storedCard,
             method: "Generic Payment",
-            transactionId: "XXXXXXX",
-            currency: currency,
+            transactionId: transaction.transactionId,
+            currency: transaction.currency,
             amount: transaction.response.amount,
-            status: "captured",
+            status: "new",
             mode: "authorize",
             createdAt: new Date(),
             transactions: []
