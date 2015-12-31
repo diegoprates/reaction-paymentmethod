@@ -1,5 +1,3 @@
-/* eslint camelcase: 0 */
-
 Meteor.methods({
   /**
    * Submit a card for Authorization
@@ -13,8 +11,8 @@ Meteor.methods({
     check(cardData, {
       name: String,
       number: ValidCardNumber,
-      expire_month: ValidExpireMonth,
-      expire_year: ValidExpireYear,
+      expireMonth: ValidExpireMonth,
+      expireYear: ValidExpireYear,
       cvv2: ValidCVV,
       type: String
     });

@@ -33,8 +33,8 @@ AutoForm.addHooks("generic-payment-form", {
     let form = {
       name: doc.payerName,
       number: doc.cardNumber,
-      expire_month: doc.expireMonth,
-      expire_year: doc.expireYear,
+      expireMonth: doc.expireMonth,
+      expireYear: doc.expireYear,
       cvv2: doc.cvv,
       type: getCardType(doc.cardNumber)
     };
@@ -57,7 +57,7 @@ AutoForm.addHooks("generic-payment-form", {
             method: "Generic Payment",
             transactionId: transaction.transactionId,
             currency: transaction.currency,
-            amount: transaction.response.amount,
+            amount: transaction.amount,
             status: transaction.status,
             mode: "authorize",
             createdAt: new Date(),
