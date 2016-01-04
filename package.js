@@ -43,3 +43,25 @@ Package.onUse(function (api) {
     "client/templates/cart/checkout/payment/methods/generic/generic.js"
   ], ["client"]);
 });
+
+Package.onTest(function (api) {
+  api.use("underscore");
+  api.use("random");
+  api.use("sanjo:jasmine@0.20.3");
+  api.use("velocity:html-reporter@0.9.1");
+  api.use("velocity:console-reporter@0.1.4");
+
+  api.use("accounts-base");
+  api.use("accounts-password");
+
+  // reaction core
+  api.use("reactioncommerce:reaction-collections@1.0.2");
+  api.use("reactioncommerce:reaction-factories@0.3.2");
+  api.use("reactioncommerce:core@0.10.0");
+  api.use("reactioncommerce:reaction-paymentmethod");
+
+  // server integration tests
+  api.addFiles("tests/jasmine/server/integration/methods.js", "server");
+  api.export("faker", ["server"]);
+});
+
