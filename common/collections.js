@@ -3,7 +3,12 @@ ReactionCore.Schemas.PaymentMethodPackageConfig = new SimpleSchema([
   ReactionCore.Schemas.PackageConfig, {
     "settings.mode": {
       type: Boolean,
-      defaultValue: false
+      defaultValue: true
+    },
+    "settings.apiKey": {
+      type: String,
+      label: "API Key",
+      optional: false
     }
   }
 ]);

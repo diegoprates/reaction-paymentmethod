@@ -3,7 +3,7 @@
 
     <div class="panel-body">
       {{#autoForm collection="ReactionCore.Collections.Packages" schema="ReactionCore.Schemas.PaymentMethodPackageConfig" doc=packageData type="update" id="generic-update-form"}}
-        {{>afQuickField name='settings.api_key'}}
+        {{>afQuickField name='settings.apiKey'}}
         <button type="submit" class="btn btn-primary pull-right">Update</button>
       {{/autoForm}}
     </div>
@@ -21,7 +21,7 @@
         </div>
         <div class="list-group">
           <div class="list-group-item">
-            {{#if packageData.settings.api_key}}
+            {{#if packageData.settings.apiKey}}
               <span>API Client ID: <button type="button" class="btn btn-link" data-event-action="showGenericSettings">**********</button></span>
             {{else}}
               <span>API Client ID: <button type="button" class="btn btn-link" data-event-action="showGenericSettings">Configure Now</button></span>
@@ -33,7 +33,7 @@
           <div class="right">
 
             <div class="panel-footer-item">
-              {{#if packageData.settings.api_key}}
+              {{#if packageData.settings.apiKey}}
                 <i class="fa fa-check-circle fa-2x text-success"></i>
               {{else}}
                 <i class="fa fa-minus-circle fa-2x text-muted"></i>
