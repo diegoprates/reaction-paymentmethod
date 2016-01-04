@@ -36,8 +36,8 @@ Package.onUse(function (api) {
   ], ["client", "server"]);
 
   api.addFiles([
-    "client/templates/generic.html",
-    "client/templates/generic.js",
+    "client/templates/settings/generic.html",
+    "client/templates/settings/generic.js",
     "client/templates/cart/checkout/payment/methods/generic/generic.html",
     "client/templates/cart/checkout/payment/methods/generic/generic.less",
     "client/templates/cart/checkout/payment/methods/generic/generic.js"

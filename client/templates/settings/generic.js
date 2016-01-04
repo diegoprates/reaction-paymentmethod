@@ -1,3 +1,5 @@
+/* eslint no-unused-vars: 0 */
+
 Template.genericSettings.helpers({
   packageData: function () {
     return ReactionCore.Collections.Packages.findOne({
