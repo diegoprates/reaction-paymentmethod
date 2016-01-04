@@ -12,7 +12,7 @@ documentation was created to try and make this process as easy as possible
 for developers new to Reaction. Also to aid in making all payment methods 
 as consistent as possible so that they are usable by the largest number of users.
 
-## Getting Started
+### Getting Started
 
 The first task is to choose a simple, single-word indentifer for your payment
 method. You will use this over and over and having it simple and consistent
@@ -46,9 +46,11 @@ API keys, etc. The template provided at `template/settings` provides a form for 
 this information. The provided form just takes one parameter, an API key (which of course 
 is not needed or used). You can add any additional parameters required here.
 
-![](screenshot_settings.png "Dashboard Settings Screen")
+![](/screenshot_settings.png "Dashboard Settings Screen")
 
-## Collections
+## Server-side
+
+### Collections
 
 In `common/collections` you will want to change the PackageConfig schema to include any settings
 you added to the dashboard form. In addition you will want to modify the `ReactionCore.Schemas.GenericPayment`
@@ -59,12 +61,12 @@ If you are unfamiliar with how Schemas work, you can look at
 other examples throught the Reaction project or visit https://atmospherejs.com/aldeed/simple-schema
 and view the documentation there.
 
-## Routing
+### Routing
 
 If you method is a typical server-side method, you should not need to add any additional routes, just modify the
 existing route for the dashboard to reflect the name of your package.
 
-## Lib
+### Lib
 
 In the lib directory you need to modify/implement the methods provided here. In this file mostly what you are doing
 is just providing a way for the client to call the server side methods. If you method does not require any parameters
@@ -92,7 +94,7 @@ and `refunds`.
  * refunds
  This method should query for a list of refunds and these refunds will show up in the dashboard when managing orders.
  
-## Server-side methods
+### Server methods
  
 Here you need to provide the server-side implementations of the four methods listed above. The naming is a little
 different in that each method must have the name of the provider (the one you selected above) in the method name.
