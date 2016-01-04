@@ -126,7 +126,7 @@ files.
 ## Writing Tests
 
 Writing tests for code that is just a wrapper around third-party code is problematic. You don't want to test your
-providers code, but you want meaningful tests. Unfortunately I don't have a simple answer here. What I have chosed
+providers code, but you want meaningful tests. Unfortunately I don't have a simple answer here. What I have chosen
 to do here (and in the other payment packages I have written tests for) is to stub/mock out the third party API and 
 just verify that we call the API with the correct parameters. One method to investigate would be to toggle off the stub
 and perform the same test using the actual API when you want to do more _integration_ tests and toggle on the stub
