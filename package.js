@@ -57,8 +57,8 @@ Package.onTest(function (api) {
   // reaction core
   api.use("reactioncommerce:reaction-collections@1.0.2");
   api.use("reactioncommerce:reaction-factories@0.3.2");
-  api.use("reactioncommerce:core@0.10.0");
-  api.use("reactioncommerce:reaction-paymentmethod");
+  api.use("reactioncommerce:core@0.10.1");
+  api.use("reactioncommerce:reaction-paymentmethod@0.0.1");
 
   // server integration tests
   api.addFiles("tests/jasmine/server/integration/methods.js", "server");
