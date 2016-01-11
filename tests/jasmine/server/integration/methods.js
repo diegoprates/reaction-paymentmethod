@@ -1,7 +1,7 @@
 describe("Authorize payment", function () {
-  it("should call Generic API with card data", function (done) {
+  it("should call Generic API with card and payment data", function (done) {
     let cardData = {
-      name: "Brent Hoover",
+      name: "Test User",
       number: "4242424242424242",
       expireMonth: "2",
       expireYear: "2018",
@@ -17,9 +17,9 @@ describe("Authorize payment", function () {
       saved: true,
       currency: "USD"
     };
-    spyOn(GenericAPI, "authorize").and.returnValue(authorizeResult);
+    spyOn(GenericAPI.methods, "authorize").and.returnValue(authorizeResult);
     Meteor.call("genericSubmit", "authorize", cardData, paymentData);
-    expect(GenericAPI.authorize).toHaveBeenCalledWith("authorize", cardData);
+    expect(GenericAPI.methods.authorize).toHaveBeenCalledWith("authorize", cardData);
     done();
   });
 });

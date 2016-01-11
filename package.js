@@ -24,10 +24,9 @@ Package.onUse(function (api) {
   api.use("spacebars");
   api.use("check");
 
-
   api.use("reactioncommerce:core@0.10.1");
 
-  api.addFiles(["server/register.js", "server/generic.js"], ["server"]); // register as a reaction package
+  api.addFiles(["server/register.js", "server/generic.js", "server/genericapi.js"], ["server"]); // register as a reaction package
 
   api.addFiles([
     "common/collections.js",
@@ -42,6 +41,8 @@ Package.onUse(function (api) {
     "client/templates/cart/checkout/payment/methods/generic/generic.less",
     "client/templates/cart/checkout/payment/methods/generic/generic.js"
   ], ["client"]);
+
+  api.export("GenericAPI", "server");
 });
 
 Package.onTest(function (api) {

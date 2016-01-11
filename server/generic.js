@@ -26,7 +26,11 @@ Meteor.methods({
     try {
       // This method will never fail, but you should place your call to the provider here
       // wrapped in a try/catch to throw an error if the call fails
-      let transaction = GenericAPI.authorize("authorize", cardData);
+      let transaction = Meteor.call(GenericAPI.methods.authorize, {
+        transactionType: transactionType,
+        cardData: cardData,
+        paymentData: paymentData
+      });
 
       result = {
         saved: true,
@@ -115,37 +119,3 @@ ValidCVV = Match.Where(function (x) {
   return /^[0-9]{3,4}$/.test(x);
 });
 
-
-// You should not implement this object. It is supposed to represent your third part API
-// And is called so that it can be stubbed out for testing
-GenericAPI = {
-  authorize: function (paymentType, cardData) {
-    if (paymentType === "authorize") {
-      return {
-        success: true,
-        id: Random.id(),
-        cardNumber: cardData.number.slice[-4]
-      };
-    }
-    return {
-      success: false
-    };
-  },
-  capture: function (authorizationId) {
-    return {
-      authorizationId: authorizationId
-    };
-  },
-  refund: function (transactionId, amount) {
-    return {
-      transactionId: transactionId,
-      amount: amount
-    };
-  },
-  listRefunds: function (transactionId) {
-    return {
-      transactionId: transactionId,
-      refunds: []
-    };
-  }
-};
