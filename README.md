@@ -16,7 +16,7 @@ as consistent as possible so that they are usable by the largest number of users
 
 The first task is to choose a simple, single-word indentifer for your payment
 method. You will use this over and over and having it simple and consistent
-will make it less easier to keep your package free of bugs. In this project we
+will make it easier to keep your package free of bugs. In this project we
 have chosen the clever name of `generic`.
 
 ## The Client Side
