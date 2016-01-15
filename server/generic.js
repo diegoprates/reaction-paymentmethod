@@ -24,7 +24,7 @@ Meteor.methods({
     let total = parseFloat(paymentData.total);
     let result;
     try {
-      let transaction = GenericAPI.methods.authorize({
+      let transaction = GenericAPI.methods.authorize.call({
         transactionType: transactionType,
         cardData: cardData,
         paymentData: paymentData

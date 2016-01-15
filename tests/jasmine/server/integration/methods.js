@@ -1,3 +1,30 @@
+xdescribe("GenericAPI", function () {
+  it("should return data from ThirdPartyAPI", function (done) {
+    let cardData = {
+      name: "Test User",
+      number: "4242424242424242",
+      expireMonth: "2",
+      expireYear: "2018",
+      cvv2: "123",
+      type: "visa"
+    };
+    let paymentData = {
+      currency: "USD",
+      total: "19.99"
+    };
+
+    let transactionType = "authorize";
+    let transaction = GenericAPI.methods.authorize.call({
+      transactionType: transactionType,
+      cardData: cardData,
+      paymentData: paymentData
+    });
+
+    expect(transaction).not.toBe(undefined);
+    done();
+  });
+});
+
 describe("Submit payment", function () {
   it("should call Generic API with card and payment data", function (done) {
     let cardData = {
@@ -18,9 +45,9 @@ describe("Submit payment", function () {
       currency: "USD"
     };
 
-    spyOn(GenericAPI.methods, "authorize").and.returnValue(authorizeResult);
+    spyOn(GenericAPI.methods.authorize, "call").and.returnValue(authorizeResult);
     Meteor.call("genericSubmit", "authorize", cardData, paymentData);
-    expect(GenericAPI.methods.authorize).toHaveBeenCalledWith({
+    expect(GenericAPI.methods.authorize.call).toHaveBeenCalledWith({
       transactionType: "authorize",
       cardData: cardData,
       paymentData: paymentData

@@ -9,7 +9,8 @@ ThirdPartyAPI = {
         success: true,
         id: Random.id(),
         cardNumber: cardData.number.slice(-4),
-        amount: paymentData.total
+        amount: paymentData.total,
+        currency: "USD"
       };
       return results;
     }
@@ -59,12 +60,7 @@ GenericAPI.methods = {};
 GenericAPI.methods.authorize = {
   name: "GenericAPI.methods.authorize",
   validate(args) {
-    check(args,
-      {
-        paymentType: {type: String, label: "paymentType", allowedValues: ["authorize", "capture"]},
-        cardData: {type: Object, label: "cardData", blackbox: true},
-        paymentData: {type: Object, label: "paymentType", blackbox: true}
-      });
+    check(args, Object);
   },
   run({ transactionType, cardData, paymentData }) {
     let results = ThirdPartyAPI.authorize(transactionType, cardData, paymentData);
@@ -75,8 +71,8 @@ GenericAPI.methods.authorize = {
       returnStubValue: true,
       throwStubExceptions: true
     };
-
-    Meteor.apply(this.name, [args], options, callback);
+    let results = Meteor.apply(this.name, [args], options, callback);
+    return results;
   }
 };
 
@@ -106,8 +102,8 @@ GenericAPI.methods.capture = {
       returnStubValue: true,
       throwStubExceptions: true
     };
-
-    Meteor.apply(this.name, [args], options, callback);
+    let results = Meteor.apply(this.name, [args], options, callback);
+    return results;
   }
 };
 
@@ -137,16 +133,15 @@ GenericAPI.methods.refund = {
       returnStubValue: true,
       throwStubExceptions: true
     };
-
-    Meteor.apply(this.name, [args], options, callback);
+    let results = Meteor.apply(this.name, [args], options, callback);
+    return results;
   }
 };
 
 Meteor.methods({
   [GenericAPI.methods.refund.name]: function (args) {
     GenericAPI.methods.refund.validate.call(this, args);
-    let results = GenericAPI.methods.refund.run.call(this, args);
-    return results;
+    return GenericAPI.methods.refund.run.call(this, args);
   }
 });
 
@@ -167,8 +162,8 @@ GenericAPI.methods.refunds = {
       returnStubValue: true,
       throwStubExceptions: true
     };
-
-    Meteor.apply(this.name, [args], options, callback);
+    let results = Meteor.apply(this.name, [args], options, callback);
+    return results;
   }
 };
 
