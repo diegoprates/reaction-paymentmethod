@@ -26,7 +26,7 @@ Meteor.methods({
     try {
       // This method will never fail, but you should place your call to the provider here
       // wrapped in a try/catch to throw an error if the call fails
-      let transaction = Meteor.call(GenericAPI.methods.authorize, {
+      let transaction = GenericAPI.methods.authorize({
         transactionType: transactionType,
         cardData: cardData,
         paymentData: paymentData

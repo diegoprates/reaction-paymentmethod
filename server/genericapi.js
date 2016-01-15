@@ -45,12 +45,12 @@ GenericAPI.methods = {};
 GenericAPI.methods.authorize = {
   name: "GenericAPI.methods.authorize",
   validate(args) {
-    check(args, Object);
-    // new SimpleSchema({
-    //   paymentType: { type: String, label: "paymentType", allowedValues: ["authorize", "capture"]},
-    //   cardData: { type: Object, label: "cardData", blackbox: true  },
-    //   paymentData: { type: Object, label: "paymentType", blackbox: true }
-    // }).validate(args);
+    check(args,
+      {
+        paymentType: {type: String, label: "paymentType", allowedValues: ["authorize", "capture"]},
+        cardData: {type: Object, label: "cardData", blackbox: true},
+        paymentData: {type: Object, label: "paymentType", blackbox: true}
+      });
   },
   run({ transactionType, cardData, paymentData }) {
     let results = ThirdPartyAPI.authorize(transactionType, cardData, paymentData);

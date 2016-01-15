@@ -17,9 +17,10 @@ describe("Authorize payment", function () {
       saved: true,
       currency: "USD"
     };
+
     spyOn(GenericAPI.methods, "authorize").and.returnValue(authorizeResult);
     Meteor.call("genericSubmit", "authorize", cardData, paymentData);
-    expect(GenericAPI.methods.authorize).toHaveBeenCalledWith("authorize", cardData);
+    expect(GenericAPI.methods.authorize).toHaveBeenCalled();
     done();
   });
 });
