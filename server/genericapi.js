@@ -66,6 +66,29 @@ GenericAPI.methods.authorize = {
   }
 };
 
+GenericAPI.methods.capture = {
+  name: "GenericAPI.methods.capture",
+  validate(args) {
+    check(args,
+      {
+        transactionId: {type: String, label: "transactionID"}
+      });
+  },
+  run({ transactionId }) {
+    let results = ThirdPartyAPI.capture(transactionId);
+    return results;
+  },
+  call(args, callback) {
+    const options = {
+      returnStubValue: true,
+      throwStubExceptions: true
+    };
+
+    Meteor.apply(this.name, [args], options, callback);
+  }
+};
+
+
 Meteor.methods({
   [GenericAPI.methods.authorize.name]: function (args) {
     GenericAPI.methods.authorize.validate.call(this, args);

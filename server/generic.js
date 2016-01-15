@@ -24,8 +24,6 @@ Meteor.methods({
     let total = parseFloat(paymentData.total);
     let result;
     try {
-      // This method will never fail, but you should place your call to the provider here
-      // wrapped in a try/catch to throw an error if the call fails
       let transaction = GenericAPI.methods.authorize({
         transactionType: transactionType,
         cardData: cardData,
@@ -56,13 +54,13 @@ Meteor.methods({
 
   /**
    * Capture a Charge
-   * @param  {Object} paymentMethod A PaymentMethod object
+   * @param  {String} authorizationId A String representing the previously authorized transaction
    * @return {Object} results normalized
    */
-  "generic/payment/capture": function (paymentMethod) {
-    check(paymentMethod, ReactionCore.Schemas.PaymentMethod);
-    // Place your call to your provider to capture a payment here and place it in response
-    let response = {};
+  "generic/payment/capture": function (authorizationId) {
+    check(authorizationId, String);
+
+    let response = GenericAPI.methods.capture(authorizationId);
     let result = {
       saved: true,
       response: response
@@ -79,10 +77,7 @@ Meteor.methods({
   "generic/refund/create": function (paymentMethod, amount) {
     check(paymentMethod, ReactionCore.Schemas.PaymentMethod);
     check(amount, Number);
-    // Place your call to your respective provider for a refund here
-    let response = {
-      amount: amount
-    };
+    let response = GenericAPI.methods.refund();
     let results = {
       saved: true,
       response: response
