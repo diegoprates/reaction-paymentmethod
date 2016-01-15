@@ -81,7 +81,7 @@ and `refunds`.
  To the consumer it looks like the charge has already gone through and their balance is reduced by the allocated amount.
  Typically an autorization will expire after a set number of days. Usually you cannot capture more than you authorize
  but you can capture less and leave the balance still captured or release the balance. In a typical hard-goods shipment
- scenario, an authorize will be performed at time of order, then when the actual good are shipped a capture is performed.
+ scenario an authorize will be performed at time of order then when the actual good are shipped a capture is performed.
  
  * **capture**
  
@@ -116,7 +116,9 @@ implement this fairly easily.
 Payment packages, like all Reaction packages must tell Reaction what they are providing to Reaction through the 
 `provides` keyword. Most payment methods will "provide" three things: A dashboard widget, dashboard settings, and a
 checkout form (all covered above). Typically you can just change the names in `register.js` to reflect your package
-name and you should be fine.
+name and you should be fine. Also you need to define any "Global" objects that the payment method should provide.
+In the example we export the "GenericAPI" object which is a stand-in for whatever third-party package you may be using
+to integrate with your payment processor.
  
 ## Your Package
  
@@ -126,10 +128,26 @@ files.
 ## Writing Tests
 
 Writing tests for code that is just a wrapper around third-party code is problematic. You don't want to test your
-providers code, but you want meaningful tests. Unfortunately I don't have a simple answer here. What I have chosen
-to do here (and in the other payment packages I have written tests for) is to stub/mock out the third party API and 
-just verify that we call the API with the correct parameters. One method to investigate would be to toggle off the stub
-and perform the same test using the actual API when you want to do more _integration_ tests and toggle on the stub
-when you want to have the tests be more unit tests. Suggestions and real-life experiences are welcome as we try to
-figure out how to best test all parts of Reaction Commerce.
+providers code, but you want meaningful tests. 
 
+The solution that we at Reaction Commerce have come up with is to create a wrapper around the third-party code. While
+this adds a little more complexity it allows you to seamlessly stub/mock out this library so that you aren't testing
+code that you have no control over and it prevents your test code from making calls out to a third party service every
+time you run your test. These tests won't take the place of actually testing your code from end to end (i.e. trying
+to purchase something in the store and pay for it with your payment method), but it will allow you to quickly see
+any problems you create as your code changes.
+
+Check out the example tests and the example wrapper we created. This wrapper uses the 
+["Advanced Method boilerplate"](http://guide.meteor.com/methods.html#advanced-boilerplate) which was designed with testing 
+in mind by the Meteor folks so that specific features of a larger method could be tested without testing the entire method.
+
+### What to test
+
+My rule of thumb is at least two tests for each method or chunk of code. One for the "happy path"  (when everything
+works as expected) and one for if something goes wrong (usually that bad parameters are passed). 
+With third party libraries you may want to test that error messages are propogated properly if an error is 
+returned by the library.
+
+This rule gives you a starting point, but you should add tests whereever you see a section that is vulnerable to
+bugs or whenever you find a bug, write a test that simulates the bug and fix your code until the test passes. Having
+this test helps you prevent a regression down the line if another change re-introduces it.

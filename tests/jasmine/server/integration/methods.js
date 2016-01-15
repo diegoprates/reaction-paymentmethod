@@ -20,7 +20,11 @@ describe("Authorize payment", function () {
 
     spyOn(GenericAPI.methods, "authorize").and.returnValue(authorizeResult);
     Meteor.call("genericSubmit", "authorize", cardData, paymentData);
-    expect(GenericAPI.methods.authorize).toHaveBeenCalled();
+    expect(GenericAPI.methods.authorize).toHaveBeenCalledWith({
+      transactionType: "authorize",
+      cardData: cardData,
+      paymentData: paymentData
+    });
     done();
   });
 });
