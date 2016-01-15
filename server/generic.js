@@ -70,14 +70,14 @@ Meteor.methods({
 
   /**
    * Create a refund
-   * @param  {Object} paymentMethod object
+   * @param  {Object} transactionId object
    * @param  {Number} amount The amount to be refunded
    * @return {Object} result
    */
-  "generic/refund/create": function (paymentMethod, amount) {
-    check(paymentMethod, ReactionCore.Schemas.PaymentMethod);
+  "generic/refund/create": function (transactionId, amount) {
+    check(transactionId, String);
     check(amount, Number);
-    let response = GenericAPI.methods.refund();
+    let response = GenericAPI.methods.refund(transactionId, amount);
     let results = {
       saved: true,
       response: response
@@ -87,13 +87,16 @@ Meteor.methods({
 
   /**
    * List refunds
-   * @param  {Object} paymentMethod object
+   * @param  {String} transactionId object
    * @return {Object} result
    */
-  "generic/refund/list": function (paymentMethod) {
-    check(paymentMethod, ReactionCore.Schemas.PaymentMethod);
-
-    let result = [];
+  "generic/refund/list": function (transactionId) {
+    check(transactionId, String);
+    let response = GenericAPI.methods.refunds(transactionId);
+    let result = {
+      success: true,
+      response: response
+    };
     return result;
   }
 });

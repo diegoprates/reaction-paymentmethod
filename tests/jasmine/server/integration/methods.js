@@ -58,4 +58,61 @@ describe("Capture payment", function () {
     expect(GenericAPI.methods.capture).toHaveBeenCalledWith(transactionId);
     done();
   });
+
+  it("should throw an error if transaction ID is not found", function (done) {
+    spyOn(GenericAPI.methods, "capture").and.callFake(function () {
+      throw new Meteor.Error("Not Found");
+    });
+
+    expect(function () {
+      Meteor.call("generic/payment/capture", "abc123");
+    }).toThrow();
+    done();
+  });
 });
+
+describe("Refund", function () {
+  it("should call GenericAPI with transaction ID", function (done) {
+    let refundResults = { success: true };
+    let transactionId = "abc1234";
+    let amount = 19.99;
+    spyOn(GenericAPI.methods, "refund").and.returnValue(refundResults);
+    Meteor.call("generic/refund/create", transactionId, amount);
+    expect(GenericAPI.methods.refund).toHaveBeenCalledWith(transactionId, amount);
+    done();
+  });
+
+  it("should throw an error if transaction ID is not found", function (done) {
+    spyOn(GenericAPI.methods, "refund").and.callFake(function () {
+      throw new Meteor.Error("404", "Not Found");
+    });
+
+    expect(function () {
+      Meteor.call("generic/refund/create", "abc123", 19.99);
+    }).toThrow(new Meteor.Error("404", "Not Found"));
+    done();
+  });
+});
+
+describe("List Refunds", function () {
+  it("should call GenericAPI with transaction ID", function (done) {
+    let refundResults = { success: true };
+    let transactionId = "abc1234";
+    spyOn(GenericAPI.methods, "refunds").and.returnValue(refundResults);
+    Meteor.call("generic/refund/list", transactionId);
+    expect(GenericAPI.methods.refunds).toHaveBeenCalledWith(transactionId);
+    done();
+  });
+
+  it("should throw an error if transaction ID is not found", function (done) {
+    spyOn(GenericAPI.methods, "refunds").and.callFake(function () {
+      throw new Meteor.Error("404", "Not Found");
+    });
+
+    expect(function () {
+      Meteor.call("generic/refund/list", "abc123", 19.99);
+    }).toThrow(new Meteor.Error("404", "Not Found"));
+    done();
+  });
+});
+
