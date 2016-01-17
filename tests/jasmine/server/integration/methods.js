@@ -46,12 +46,14 @@ describe("Submit payment", function () {
     };
 
     spyOn(GenericAPI.methods.authorize, "call").and.returnValue(authorizeResult);
-    Meteor.call("genericSubmit", "authorize", cardData, paymentData);
+    let results = Meteor.call("genericSubmit", "authorize", cardData, paymentData);
     expect(GenericAPI.methods.authorize.call).toHaveBeenCalledWith({
       transactionType: "authorize",
       cardData: cardData,
       paymentData: paymentData
     });
+
+    expect(results.saved).toBe(true);
     done();
   });
 
@@ -81,8 +83,10 @@ describe("Capture payment", function () {
     let captureResults = { success: true };
     let transactionId = "abc1234";
     spyOn(GenericAPI.methods, "capture").and.returnValue(captureResults);
-    Meteor.call("generic/payment/capture", transactionId);
+    let results = Meteor.call("generic/payment/capture", transactionId);
     expect(GenericAPI.methods.capture).toHaveBeenCalledWith(transactionId);
+    expect(results.saved).toBe(true);
+
     done();
   });
 
