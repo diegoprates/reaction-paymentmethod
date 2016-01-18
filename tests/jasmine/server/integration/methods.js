@@ -1,5 +1,5 @@
-xdescribe("GenericAPI", function () {
-  it("should return data from ThirdPartyAPI", function (done) {
+describe("GenericAPI", function () {
+  it("should return data from ThirdPartyAPI authorize", function (done) {
     let cardData = {
       name: "Test User",
       number: "4242424242424242",
@@ -23,7 +23,15 @@ xdescribe("GenericAPI", function () {
     expect(transaction).not.toBe(undefined);
     done();
   });
+
+  it("should return data from ThirdPartAPI capture", function (done) {
+    let authorizationId = "abc123";
+    let results = GenericAPI.methods.capture.call(authorizationId);
+    expect(results).not.toBe(undefined);
+    done();
+  });
 });
+
 
 describe("Submit payment", function () {
   it("should call Generic API with card and payment data", function (done) {

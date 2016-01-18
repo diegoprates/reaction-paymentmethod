@@ -54,17 +54,19 @@ Meteor.methods({
 
   /**
    * Capture a Charge
-   * @param  {String} authorizationId A String representing the previously authorized transaction
+   * @param {Object} paymentData Object containing data about the transaction to capture
    * @return {Object} results normalized
    */
-  "generic/payment/capture": function (authorizationId) {
-    check(authorizationId, String);
-
-    let response = GenericAPI.methods.capture(authorizationId);
+  "generic/payment/capture": function (paymentData) {
+    check(paymentData, Object);
+    let authorizationId = paymentData.transactionId;
+    let amount = paymentData.amount;
+    let response = GenericAPI.methods.capture.call(authorizationId, amount);
     let result = {
       saved: true,
       response: response
     };
+    console.log("server/generic results: " + result);
     return result;
   },
 

@@ -18,9 +18,10 @@ ThirdPartyAPI = {
       success: false
     };
   },
-  capture: function (authorizationId) {
+  capture: function (authorizationId, amount) {
     return {
       authorizationId: authorizationId,
+      amount: amount,
       success: true
     };
   },
@@ -87,14 +88,12 @@ Meteor.methods({
 
 GenericAPI.methods.capture = {
   name: "GenericAPI.methods.capture",
-  validate(args) {
-    check(args,
-      {
-        transactionId: {type: String, label: "transactionID"}
-      });
+  validate(authorizationId, amount) {
+    check(authorizationId, String);
+    check(amount, Number);
   },
-  run({ transactionId }) {
-    let results = ThirdPartyAPI.capture(transactionId);
+  run(transactionId, amount) {
+    let results = ThirdPartyAPI.capture(transactionId, amount);
     return results;
   },
   call(args, callback) {
