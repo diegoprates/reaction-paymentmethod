@@ -61,7 +61,21 @@ GenericAPI.methods = {};
 GenericAPI.methods.authorize = {
   name: "GenericAPI.methods.authorize",
   validate(args) {
-    check(args, Object);
+    check(args, {
+      transactionType: String,
+      cardData: {
+        name: String,
+        number: String,
+        expireMonth: String,
+        expireYear: String,
+        cvv2: String,
+        type: String
+      },
+      paymentData: {
+        total: String,
+        currency: String
+      }
+    });
   },
   run({ transactionType, cardData, paymentData }) {
     let results = ThirdPartyAPI.authorize(transactionType, cardData, paymentData);
@@ -88,11 +102,15 @@ Meteor.methods({
 
 GenericAPI.methods.capture = {
   name: "GenericAPI.methods.capture",
-  validate(authorizationId, amount) {
-    check(authorizationId, String);
-    check(amount, Number);
+  validate(args) {
+    check(args, {
+      authorizationId: String,
+      amount: Number
+    });
   },
-  run(transactionId, amount) {
+  run(args) {
+    let transactionId = args.authorizationId;
+    let amount = args.amount;
     let results = ThirdPartyAPI.capture(transactionId, amount);
     return results;
   },
@@ -165,7 +183,6 @@ GenericAPI.methods.refunds = {
     return results;
   }
 };
-
 
 Meteor.methods({
   [GenericAPI.methods.refunds.name]: function (args) {

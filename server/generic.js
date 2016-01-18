@@ -61,25 +61,27 @@ Meteor.methods({
     check(paymentData, Object);
     let authorizationId = paymentData.transactionId;
     let amount = paymentData.amount;
-    let response = GenericAPI.methods.capture.call(authorizationId, amount);
+    let response = GenericAPI.methods.capture.call({
+      authorizationId: authorizationId,
+      amount: amount
+    });
     let result = {
       saved: true,
       response: response
     };
-    console.log("server/generic results: " + result);
     return result;
   },
 
   /**
    * Create a refund
-   * @param  {Object} transactionId object
+   * @param  {Object} paymentMethod object
    * @param  {Number} amount The amount to be refunded
    * @return {Object} result
    */
-  "generic/refund/create": function (transactionId, amount) {
-    check(transactionId, String);
+  "generic/refund/create": function (paymentMethod, amount) {
+    check(paymentMethod, Object);
     check(amount, Number);
-    let response = GenericAPI.methods.refund(transactionId, amount);
+    let response = GenericAPI.methods.refund(paymentMethod, amount);
     let results = {
       saved: true,
       response: response
