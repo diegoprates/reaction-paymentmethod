@@ -14,7 +14,7 @@ ReactionCore.registerPackage({
     {
       provides: "dashboard",
       label: "Generic Payment",
-      description: "Generic Payment Method for Reaction Commerce",
+      description: "Generic Payment Method",
       route: "dashboard/generic",
       icon: "fa fa-cc-generic",
       cycle: "3",

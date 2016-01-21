@@ -1,7 +1,7 @@
 Package.describe({
   summary: "Reaction Payment Method - A generic 'no-process' payment method for you to fork and make your own",
   name: "reactioncommerce:reaction-paymentmethod",
-  version: "0.0.1",
+  version: "0.0.2",
   git: "https://github.com/reactioncommerce/reaction-paymentmethod.git"
 });
 
@@ -24,7 +24,7 @@ Package.onUse(function (api) {
   api.use("spacebars");
   api.use("check");
 
-  api.use("reactioncommerce:core@0.10.1");
+  api.use("reactioncommerce:core@0.11.0");
 
   api.addFiles(["server/register.js", "server/generic.js", "server/genericapi.js"], ["server"]); // register as a reaction package
 
@@ -56,13 +56,12 @@ Package.onTest(function (api) {
   api.use("accounts-password");
 
   // reaction core
-  api.use("reactioncommerce:reaction-collections@1.0.2");
+  api.use("reactioncommerce:reaction-collections@1.0.4");
   api.use("reactioncommerce:reaction-factories@0.3.2");
-  api.use("reactioncommerce:core@0.10.1");
+  api.use("reactioncommerce:core@0.11.0");
   api.use("reactioncommerce:reaction-paymentmethod@0.0.1");
 
   // server integration tests
   api.addFiles("tests/jasmine/server/integration/methods.js", "server");
   api.export("faker", ["server"]);
 });
-
