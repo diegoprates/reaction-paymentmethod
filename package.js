@@ -57,7 +57,7 @@ Package.onTest(function (api) {
 
   // reaction core
   api.use("reactioncommerce:reaction-collections@1.0.4");
-  api.use("reactioncommerce:reaction-factories@0.3.2");
+  api.use("reactioncommerce:reaction-factories@0.3.7");
   api.use("reactioncommerce:core@0.11.0");
   api.use("reactioncommerce:reaction-paymentmethod@0.0.1");
 
