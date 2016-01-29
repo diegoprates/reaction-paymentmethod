@@ -58,7 +58,7 @@ Meteor.methods({
    * @return {Object} results normalized
    */
   "generic/payment/capture": function (paymentData) {
-    check(paymentData, Object);
+    check(paymentData, ReactionCore.Schemas.PaymentMethod);
     let authorizationId = paymentData.transactionId;
     let amount = paymentData.amount;
     let response = GenericAPI.methods.capture.call({
@@ -79,9 +79,13 @@ Meteor.methods({
    * @return {Object} result
    */
   "generic/refund/create": function (paymentMethod, amount) {
-    check(paymentMethod, Object);
+    check(paymentMethod, ReactionCore.Schemas.PaymentMethod);
     check(amount, Number);
-    let response = GenericAPI.methods.refund(paymentMethod, amount);
+    let { transactionId } = paymentMethod;
+    let response = GenericAPI.methods.refund.call({
+      transactionId: transactionId,
+      amount: amount
+    });
     let results = {
       saved: true,
       response: response
@@ -91,17 +95,31 @@ Meteor.methods({
 
   /**
    * List refunds
-   * @param  {String} transactionId object
+   * @param  {Object} paymentMethod Object containing the pertinant data
    * @return {Object} result
    */
-  "generic/refund/list": function (transactionId) {
-    check(transactionId, String);
-    let response = GenericAPI.methods.refunds(transactionId);
-    let result = {
-      success: true,
-      response: response
-    };
-    return result;
+  "generic/refund/list": function (paymentMethod) {
+    check(paymentMethod, ReactionCore.Schemas.PaymentMethod);
+    let { transactionId } = paymentMethod;
+    let response = GenericAPI.methods.refunds.call({
+      transactionId: transactionId
+    });
+    let result = [];
+    for (let refund of response.refunds) {
+      result.push(refund);
+    }
+
+    // The results retured from the GenericAPI just so happen to look like exactly what the dashboard
+    // wants. The return package should ba an array of objects that look like this
+    // {
+    //   type: "refund",
+    //   amount: Number,
+    //   created: Number: Epoch Time,
+    //   currency: String,
+    //   raw: Object
+    // }
+    let emptyResult = [];
+    return emptyResult;
   }
 });
 

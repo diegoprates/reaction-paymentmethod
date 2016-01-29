@@ -37,16 +37,12 @@ ThirdPartyAPI = {
       transactionId: transactionId,
       refunds: [
         {
-          date: "2015-10-16T22:19:51.993Z",
-          amount: 19.99,
-          comment: "Cancel Backorder"
-        },
-        {
-          date: "2015-10-16T22:19:51.993Z",
+          type: "refund",
           amount: 3.99,
-          comment: "Refund Shipping"
+          created: 1454034562000,
+          currency: "usd",
+          raw: {}
         }
-
       ]
     };
   }
@@ -135,13 +131,14 @@ Meteor.methods({
 GenericAPI.methods.refund = {
   name: "GenericAPI.methods.refund",
   validate(args) {
-    check(args,
-      {
-        transactionId: {type: String, label: "transactionID"},
-        amount: { type: Number }
-      });
+    check(args, {
+      transactionId: String,
+      amount: Number
+    });
   },
-  run({ transactionId, amount }) {
+  run(args) {
+    let transactionId = args.transactionId;
+    let amount = args.amount;
     let results = ThirdPartyAPI.refund(transactionId, amount);
     return results;
   },
@@ -158,20 +155,22 @@ GenericAPI.methods.refund = {
 Meteor.methods({
   [GenericAPI.methods.refund.name]: function (args) {
     GenericAPI.methods.refund.validate.call(this, args);
-    return GenericAPI.methods.refund.run.call(this, args);
+    let results = GenericAPI.methods.refund.run.call(this, args);
+    return results;
   }
 });
+
 
 GenericAPI.methods.refunds = {
   name: "GenericAPI.methods.refunds",
   validate(args) {
-    check(args,
-      {
-        transactionId: {type: String, label: "transactionID"}
-      });
+    check(args, {
+      transactionId: String
+    });
   },
-  run({ transactionId }) {
-    let results = ThirdPartyAPI.refunds(transactionId);
+  run(args) {
+    let { transactionId } = args;
+    let results = ThirdPartyAPI.listRefunds(transactionId);
     return results;
   },
   call(args, callback) {
@@ -191,4 +190,3 @@ Meteor.methods({
     return results;
   }
 });
-
