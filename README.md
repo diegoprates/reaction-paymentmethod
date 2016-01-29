@@ -1,8 +1,11 @@
 reaction-paymentmethod
 =============
 
-A non-processing payment method for ReactionCommerce that is meant to be a template for developing new payment methods and as a default
-payment method for testing
+A non-processing payment method for ReactionCommerce that is meant to be a 
+template for developing new payment methods and as a default payment method 
+for testing. Note that while charging and capturing should work as expected, 
+refunds are not recorded since Reaction expects refunds to be recorded by the 
+Payment Gateway.
 
 # Introduction
 
