@@ -18,7 +18,8 @@ ReactionCore.registerPackage({
       route: "dashboard/generic",
       icon: "fa fa-cc-generic",
       cycle: "3",
-      container: "dashboard"
+      container: "dashboard",
+      template: "generic"
     },
 
     // Settings panel
