@@ -1,3 +1,12 @@
+let paymentMethod = {
+  processor: "Generic",
+  storedCard: "Visa 4242",
+  status: "captured",
+  mode: "authorize",
+  createdAt: new Date()
+};
+
+
 describe("GenericAPI", function () {
   it("should return data from ThirdPartyAPI authorize", function (done) {
     let cardData = {
@@ -94,12 +103,11 @@ describe("Capture payment", function () {
   it("should call GenericAPI with transaction ID", function (done) {
     let captureResults = { success: true };
     let authorizationId = "abc1234";
-    let captureArgs = {
-      transactionId: authorizationId,
-      amount: 19.99
-    };
+    paymentMethod.transactionId = authorizationId;
+    paymentMethod.amount = 19.99;
+
     spyOn(GenericAPI.methods.capture, "call").and.returnValue(captureResults);
-    let results = Meteor.call("generic/payment/capture", captureArgs);
+    let results = Meteor.call("generic/payment/capture", paymentMethod);
     expect(GenericAPI.methods.capture.call).toHaveBeenCalledWith({
       authorizationId: authorizationId,
       amount: 19.99
@@ -126,20 +134,23 @@ describe("Refund", function () {
     let refundResults = { success: true };
     let transactionId = "abc1234";
     let amount = 19.99;
-    let paymentMethod = {transactionId: transactionId};
-    spyOn(GenericAPI.methods, "refund").and.returnValue(refundResults);
+    paymentMethod.transactionId = transactionId;
+    spyOn(GenericAPI.methods.refund, "call").and.returnValue(refundResults);
     Meteor.call("generic/refund/create", paymentMethod, amount);
-    expect(GenericAPI.methods.refund).toHaveBeenCalledWith(paymentMethod, amount);
+    expect(GenericAPI.methods.refund.call).toHaveBeenCalledWith({
+      transactionId: transactionId,
+      amount: amount
+    });
     done();
   });
 
   it("should throw an error if transaction ID is not found", function (done) {
-    spyOn(GenericAPI.methods, "refund").and.callFake(function () {
+    spyOn(GenericAPI.methods.refund, "call").and.callFake(function () {
       throw new Meteor.Error("404", "Not Found");
     });
 
     let transactionId = "abc1234";
-    let paymentMethod = {transactionId: transactionId};
+    paymentMethod.transactionId =  transactionId;
     expect(function () {
       Meteor.call("generic/refund/create", paymentMethod, 19.99);
     }).toThrow(new Meteor.Error("404", "Not Found"));
@@ -150,10 +161,13 @@ describe("Refund", function () {
 xdescribe("List Refunds", function () {
   it("should call GenericAPI with transaction ID", function (done) {
     let refundResults = { success: true };
-    let transactionId = "abc1234";
-    spyOn(GenericAPI.methods, "refunds").and.returnValue(refundResults);
+    let refundArgs = {
+      transactionId: "abc1234",
+      amount: 19.99
+    };
+    spyOn(GenericAPI.methods.refund, "call").and.returnValue(refundResults);
     Meteor.call("generic/refund/list", transactionId);
-    expect(GenericAPI.methods.refunds).toHaveBeenCalledWith(transactionId);
+    expect(GenericAPI.methods.refund.call).toHaveBeenCalledWith(refundArgs);
     done();
   });
 
