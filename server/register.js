@@ -3,7 +3,7 @@
 ReactionCore.registerPackage({
   label: "GenericPayment",
   name: "reaction-paymentmethod",
-  icon: "fa fa-cc-generic",
+  icon: "fa fa-credit-card-alt",
   autoEnable: true,
   settings: {
     mode: false,
