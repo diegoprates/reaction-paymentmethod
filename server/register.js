@@ -25,7 +25,7 @@ ReactionCore.registerPackage({
     // Settings panel
     {
       label: "Generic Payment Settings",
-      route: "dashboard/generic",
+      route: "dashboard/generic/settings",
       provides: "settings",
       container: "dashboard",
       template: "genericSettings"
@@ -39,7 +39,7 @@ ReactionCore.registerPackage({
   ],
   permissions: [{
     label: "Generic Payment Method",
-    permission: "dashboard/payments",
+    permission: "dashboard/generic",
     group: "Shop Settings"
   }]
 });
