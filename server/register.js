@@ -15,7 +15,7 @@ ReactionCore.registerPackage({
       provides: "dashboard",
       label: "Generic Payment",
       description: "Generic payment method",
-      route: "dashboard/generic",
+      route: "/dashboard/generic",
       icon: "fa fa-credit-card-alt",
       priority: 3,
       container: "paymentMethod",
@@ -29,7 +29,7 @@ ReactionCore.registerPackage({
     // Settings panel
     {
       label: "Generic Payment Settings",
-      route: "dashboard/generic/settings",
+      route: "/dashboard/generic/settings",
       provides: "settings",
       container: "dashboard",
       template: "genericSettings"
