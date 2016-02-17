@@ -3,7 +3,7 @@
 ReactionCore.registerPackage({
   label: "GenericPayment",
   name: "reaction-paymentmethod",
-  icon: "fa fa-cc-generic",
+  icon: "fa fa-credit-card-alt",
   autoEnable: true,
   settings: {
     mode: false,
@@ -14,17 +14,22 @@ ReactionCore.registerPackage({
     {
       provides: "dashboard",
       label: "Generic Payment",
-      description: "Generic Payment Method",
-      route: "dashboard/generic",
-      icon: "fa fa-cc-generic",
-      cycle: "3",
-      container: "dashboard"
+      description: "Generic payment method",
+      route: "/dashboard/generic",
+      icon: "fa fa-credit-card-alt",
+      priority: 3,
+      container: "paymentMethod",
+      template: "generic",
+      permissions: [{
+        label: "Generic Payment Method",
+        permission: "dashboard/generic"
+      }]
     },
 
     // Settings panel
     {
       label: "Generic Payment Settings",
-      route: "dashboard/generic",
+      route: "/dashboard/generic/settings",
       provides: "settings",
       container: "dashboard",
       template: "genericSettings"
@@ -35,10 +40,5 @@ ReactionCore.registerPackage({
       template: "genericPaymentForm",
       provides: "paymentMethod"
     }
-  ],
-  permissions: [{
-    label: "Generic Payment Method",
-    permission: "dashboard/payments",
-    group: "Shop Settings"
-  }]
+  ]
 });
