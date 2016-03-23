@@ -54,47 +54,34 @@ ThirdPartyAPI = {
 GenericAPI = {};
 GenericAPI.methods = {};
 
-GenericAPI.methods.authorize = {
+cardSchema = new SimpleSchema({
+  number: { type: String },
+  name: { type: String },
+  cvv2: { type: String },
+  expireMonth: { type: String },
+  expireYear: { type: String },
+  type: { type: String }
+});
+
+paymentDataSchema = new SimpleSchema({
+  total: { type: String },
+  currency: { type: String }
+});
+
+
+GenericAPI.methods.authorize = new ValidatedMethod({
   name: "GenericAPI.methods.authorize",
-  validate(args) {
-    check(args, {
-      transactionType: String,
-      cardData: {
-        name: String,
-        number: String,
-        expireMonth: String,
-        expireYear: String,
-        cvv2: String,
-        type: String
-      },
-      paymentData: {
-        total: String,
-        currency: String
-      }
-    });
-  },
+  validate: new SimpleSchema({
+    transactionType: { type: String },
+    cardData: { type: cardSchema },
+    paymentData: { type: paymentDataSchema }
+  }).validator(),
   run({ transactionType, cardData, paymentData }) {
     let results = ThirdPartyAPI.authorize(transactionType, cardData, paymentData);
     return results;
-  },
-  call(args, callback) {
-    const options = {
-      returnStubValue: true,
-      throwStubExceptions: true
-    };
-    let results = Meteor.apply(this.name, [args], options, callback);
-    return results;
-  }
-};
-
-
-Meteor.methods({
-  [GenericAPI.methods.authorize.name]: function (args) {
-    GenericAPI.methods.authorize.validate.call(this, args);
-    let results = GenericAPI.methods.authorize.run.call(this, args);
-    return results;
   }
 });
+
 
 GenericAPI.methods.capture = {
   name: "GenericAPI.methods.capture",
