@@ -13,22 +13,22 @@ ReactionCore.registerPackage({
     // Dashboard card
     {
       provides: "dashboard",
-      label: "Generic Payment",
-      description: "Generic payment method",
+      label: "Example Payment Provider",
+      description: "Generic payment provider",
       route: "/dashboard/generic",
       icon: "fa fa-credit-card-alt",
       priority: 3,
       container: "paymentMethod",
       template: "generic",
       permissions: [{
-        label: "Generic Payment Method",
+        label: "Example Payment Provider",
         permission: "dashboard/generic"
       }]
     },
 
     // Settings panel
     {
-      label: "Generic Payment Settings",
+      label: "Example Payment Settings",
       route: "/dashboard/generic/settings",
       provides: "settings",
       container: "dashboard",
