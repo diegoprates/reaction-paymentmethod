@@ -114,7 +114,7 @@ GenericAPI.methods.refund = new ValidatedMethod({
 });
 
 
-GenericAPI.methods.refunds = ValidatedMethod({
+GenericAPI.methods.refunds = new ValidatedMethod({
   name: "GenericAPI.methods.refunds",
   validate: new SimpleSchema({
     transactionId: { type: String }
