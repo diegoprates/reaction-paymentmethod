@@ -84,11 +84,11 @@ GenericAPI.methods.authorize = new ValidatedMethod({
 });
 
 
-GenericAPI.methods.capture = {
+GenericAPI.methods.capture = new ValidatedMethod({
   name: "GenericAPI.methods.capture",
   validate: new SimpleSchema({
     authorizationId: { type: String },
-    amount: { type: Number }
+    amount: { type: Number, decimal: true }
   }).validator(),
   run(args) {
     let transactionId = args.authorizationId;
@@ -96,13 +96,14 @@ GenericAPI.methods.capture = {
     let results = ThirdPartyAPI.capture(transactionId, amount);
     return results;
   }
-};
+});
 
-GenericAPI.methods.refund = {
+
+GenericAPI.methods.refund = new ValidatedMethod({
   name: "GenericAPI.methods.refund",
   validate: new SimpleSchema({
     transactionId: { type: String },
-    amount: { type: Number }
+    amount: { type: Number, decimal: true  }
   }).validator(),
   run(args) {
     let transactionId = args.transactionId;
@@ -110,10 +111,10 @@ GenericAPI.methods.refund = {
     let results = ThirdPartyAPI.refund(transactionId, amount);
     return results;
   }
-};
+});
 
 
-GenericAPI.methods.refunds = {
+GenericAPI.methods.refunds = ValidatedMethod({
   name: "GenericAPI.methods.refunds",
   validate: new SimpleSchema({
     transactionId: { type: String }
@@ -123,4 +124,4 @@ GenericAPI.methods.refunds = {
     let results = ThirdPartyAPI.listRefunds(transactionId);
     return results;
   }
-};
+});
