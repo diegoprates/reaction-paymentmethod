@@ -2,7 +2,7 @@ Package.describe({
   summary: "Reaction Example Payment Provicer - A generic 'no-process' payment method for you to " +
   "fork and make your own",
   name: "reactioncommerce:reaction-paymentmethod",
-  version: "0.0.4",
+  version: "0.0.5",
   git: "https://github.com/reactioncommerce/reaction-paymentmethod.git"
 });
 
