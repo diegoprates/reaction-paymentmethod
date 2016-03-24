@@ -14,8 +14,7 @@ ReactionCore.registerPackage({
     {
       provides: "dashboard",
       label: "Example Payment Provider",
-      description: "Generic payment provider",
-      route: "/dashboard/generic",
+      description: "Example payment provider",
       icon: "fa fa-credit-card-alt",
       priority: 3,
       container: "paymentMethod",
