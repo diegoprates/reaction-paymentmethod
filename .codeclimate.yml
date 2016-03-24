@@ -4,22 +4,20 @@ engines:
     enabled: true
     config:
       languages:
-      - ruby
-      - javascript
-      - python
-      - php
+        javascript:
+          mass_threshold: 150
   eslint:
     enabled: true
   fixme:
     enabled: true
+    config:
+      strings:
+      - FIXME
+      - BUG
+
 ratings:
-  paths:
-  - "**.inc"
-  - "**.js"
-  - "**.jsx"
-  - "**.module"
-  - "**.php"
-  - "**.py"
-  - "**.rb"
-exclude_paths:
-- tests/
+   paths:
+   - "**.js"
+   - "**.jsx"
+   - "**.css"
+
