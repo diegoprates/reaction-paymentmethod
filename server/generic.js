@@ -139,3 +139,22 @@ ValidCVV = Match.Where(function (x) {
   return /^[0-9]{3,4}$/.test(x);
 });
 
+chargeObj = function () {
+  return {
+    amount: "",
+    currency: "",
+    card: {},
+    capture: true
+  };
+};
+
+parseCardData = function (data) {
+  return {
+    number: data.number,
+    name: data.name,
+    cvc: data.cvv2,
+    expireMonth: data.expire_month,
+    expireYear: data.expire_year
+  };
+};
+

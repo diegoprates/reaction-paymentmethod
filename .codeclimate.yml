@@ -1,0 +1,23 @@
+---
+engines:
+  duplication:
+    enabled: true
+    config:
+      languages:
+        javascript:
+          mass_threshold: 150
+  eslint:
+    enabled: true
+  fixme:
+    enabled: true
+    config:
+      strings:
+      - FIXME
+      - BUG
+
+ratings:
+   paths:
+   - "**.js"
+   - "**.jsx"
+   - "**.css"
+

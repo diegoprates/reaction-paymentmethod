@@ -2,6 +2,7 @@
 // You should not implement ThirdPartyAPI. It is supposed to represent your third party API
 // And is called so that it can be stubbed out for testing. This would be a library
 // like Stripe or Authorize.net usually just included with a NPM.require
+
 ThirdPartyAPI = {
   authorize: function (transactionType, cardData, paymentData) {
     if (transactionType === "authorize") {
@@ -54,139 +55,73 @@ ThirdPartyAPI = {
 GenericAPI = {};
 GenericAPI.methods = {};
 
-GenericAPI.methods.authorize = {
+cardSchema = new SimpleSchema({
+  number: { type: String },
+  name: { type: String },
+  cvv2: { type: String },
+  expireMonth: { type: String },
+  expireYear: { type: String },
+  type: { type: String }
+});
+
+paymentDataSchema = new SimpleSchema({
+  total: { type: String },
+  currency: { type: String }
+});
+
+
+GenericAPI.methods.authorize = new ValidatedMethod({
   name: "GenericAPI.methods.authorize",
-  validate(args) {
-    check(args, {
-      transactionType: String,
-      cardData: {
-        name: String,
-        number: String,
-        expireMonth: String,
-        expireYear: String,
-        cvv2: String,
-        type: String
-      },
-      paymentData: {
-        total: String,
-        currency: String
-      }
-    });
-  },
+  validate: new SimpleSchema({
+    transactionType: { type: String },
+    cardData: { type: cardSchema },
+    paymentData: { type: paymentDataSchema }
+  }).validator(),
   run({ transactionType, cardData, paymentData }) {
     let results = ThirdPartyAPI.authorize(transactionType, cardData, paymentData);
-    return results;
-  },
-  call(args, callback) {
-    const options = {
-      returnStubValue: true,
-      throwStubExceptions: true
-    };
-    let results = Meteor.apply(this.name, [args], options, callback);
-    return results;
-  }
-};
-
-
-Meteor.methods({
-  [GenericAPI.methods.authorize.name]: function (args) {
-    GenericAPI.methods.authorize.validate.call(this, args);
-    let results = GenericAPI.methods.authorize.run.call(this, args);
     return results;
   }
 });
 
-GenericAPI.methods.capture = {
+
+GenericAPI.methods.capture = new ValidatedMethod({
   name: "GenericAPI.methods.capture",
-  validate(args) {
-    check(args, {
-      authorizationId: String,
-      amount: Number
-    });
-  },
+  validate: new SimpleSchema({
+    authorizationId: { type: String },
+    amount: { type: Number, decimal: true }
+  }).validator(),
   run(args) {
     let transactionId = args.authorizationId;
     let amount = args.amount;
     let results = ThirdPartyAPI.capture(transactionId, amount);
     return results;
-  },
-  call(args, callback) {
-    const options = {
-      returnStubValue: true,
-      throwStubExceptions: true
-    };
-    let results = Meteor.apply(this.name, [args], options, callback);
-    return results;
-  }
-};
-
-Meteor.methods({
-  [GenericAPI.methods.capture.name]: function (args) {
-    GenericAPI.methods.capture.validate.call(this, args);
-    let results = GenericAPI.methods.capture.run.call(this, args);
-    return results;
   }
 });
 
-GenericAPI.methods.refund = {
+
+GenericAPI.methods.refund = new ValidatedMethod({
   name: "GenericAPI.methods.refund",
-  validate(args) {
-    check(args, {
-      transactionId: String,
-      amount: Number
-    });
-  },
+  validate: new SimpleSchema({
+    transactionId: { type: String },
+    amount: { type: Number, decimal: true  }
+  }).validator(),
   run(args) {
     let transactionId = args.transactionId;
     let amount = args.amount;
     let results = ThirdPartyAPI.refund(transactionId, amount);
     return results;
-  },
-  call(args, callback) {
-    const options = {
-      returnStubValue: true,
-      throwStubExceptions: true
-    };
-    let results = Meteor.apply(this.name, [args], options, callback);
-    return results;
-  }
-};
-
-Meteor.methods({
-  [GenericAPI.methods.refund.name]: function (args) {
-    GenericAPI.methods.refund.validate.call(this, args);
-    let results = GenericAPI.methods.refund.run.call(this, args);
-    return results;
   }
 });
 
 
-GenericAPI.methods.refunds = {
+GenericAPI.methods.refunds = new ValidatedMethod({
   name: "GenericAPI.methods.refunds",
-  validate(args) {
-    check(args, {
-      transactionId: String
-    });
-  },
+  validate: new SimpleSchema({
+    transactionId: { type: String }
+  }).validator(),
   run(args) {
     let { transactionId } = args;
     let results = ThirdPartyAPI.listRefunds(transactionId);
-    return results;
-  },
-  call(args, callback) {
-    const options = {
-      returnStubValue: true,
-      throwStubExceptions: true
-    };
-    let results = Meteor.apply(this.name, [args], options, callback);
-    return results;
-  }
-};
-
-Meteor.methods({
-  [GenericAPI.methods.refunds.name]: function (args) {
-    GenericAPI.methods.refunds.validate.call(this, args);
-    let results = GenericAPI.methods.refunds.run.call(this, args);
     return results;
   }
 });
