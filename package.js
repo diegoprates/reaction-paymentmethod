@@ -1,6 +1,5 @@
 Package.describe({
-  summary: "Reaction Example Payment Provicer - A generic 'no-process' payment method for you to " +
-  "fork and make your own",
+  summary: "Reaction Example Payment Provider - An example 'no-process' payment method",
   name: "reactioncommerce:reaction-paymentmethod",
   version: "0.0.5",
   git: "https://github.com/reactioncommerce/reaction-paymentmethod.git"
