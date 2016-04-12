@@ -7,7 +7,7 @@ Package.describe({
 
 
 Package.onUse(function (api) {
-  api.versionsFrom("METEOR@1.2.1");
+  api.versionsFrom("METEOR@1.3");
 
   // meteor base packages
   api.use("meteor-base");
@@ -24,7 +24,7 @@ Package.onUse(function (api) {
   api.use("spacebars");
   api.use("check");
 
-  api.use("reactioncommerce:core@0.12.0");
+  api.use("reactioncommerce:core@0.13.0");
 
   api.addFiles(["server/register.js", "server/generic.js", "server/genericapi.js"], ["server"]); // register as a reaction package
 
@@ -51,8 +51,8 @@ Package.onTest(function (api) {
   api.use("velocity:html-reporter@0.9.1");
   api.use("velocity:console-reporter@0.1.4");
 
-  api.use("accounts-base");
-  api.use("accounts-password");
+  api.use("accounts-base@1.2.5", {weak: true});
+  api.use("accounts-password@1.1.7", {weak: true});
 
   // reaction core
   api.use("reactioncommerce:reaction-collections");
