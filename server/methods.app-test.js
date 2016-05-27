@@ -1,3 +1,13 @@
+import { createJ$ } from "@sanjo/jasmine-expect";
+import { createEnv as createExpectEnv }  from "@sanjo/jasmine-expect";
+import { createEnv as createSpyEnv } from "@sanjo/jasmine-spy";
+
+const j$ = createJ$();
+const expectEnv = createExpectEnv(j$);
+const spyEnv = createSpyEnv(j$);
+const spyOn = spyEnv.spyOn;
+const expect = expectEnv.expect;
+
 let paymentMethod = {
   processor: "Generic",
   storedCard: "Visa 4242",
@@ -8,6 +18,10 @@ let paymentMethod = {
 
 
 describe("GenericAPI", function () {
+  afterEach(function () {
+    spyEnv.clearSpies();
+  });
+
   it("should return data from ThirdPartyAPI authorize", function (done) {
     let cardData = {
       name: "Test User",
@@ -47,6 +61,10 @@ describe("GenericAPI", function () {
 
 
 describe("Submit payment", function () {
+  afterEach(function () {
+    spyEnv.clearSpies();
+  });
+
   it("should call Generic API with card and payment data", function (done) {
     let cardData = {
       name: "Test User",
@@ -100,6 +118,10 @@ describe("Submit payment", function () {
 });
 
 describe("Capture payment", function () {
+  afterEach(function () {
+    spyEnv.clearSpies();
+  });
+
   it("should call GenericAPI with transaction ID", function (done) {
     let captureResults = { success: true };
     let authorizationId = "abc1234";
@@ -130,6 +152,10 @@ describe("Capture payment", function () {
 });
 
 describe("Refund", function () {
+  afterEach(function () {
+    spyEnv.clearSpies();
+  });
+
   it("should call GenericAPI with transaction ID", function (done) {
     let refundResults = { success: true };
     let transactionId = "abc1234";
@@ -158,7 +184,11 @@ describe("Refund", function () {
   });
 });
 
-xdescribe("List Refunds", function () {
+describe.skip("List Refunds", function () {
+  afterEach(function () {
+    spyEnv.clearSpies();
+  });
+
   it("should call GenericAPI with transaction ID", function (done) {
     let refundResults = { success: true };
     let refundArgs = {

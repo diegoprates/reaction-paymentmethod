@@ -5,6 +5,10 @@ Package.describe({
   git: "https://github.com/reactioncommerce/reaction-paymentmethod.git"
 });
 
+Npm.depends({
+  "@sanjo/jasmine-spy": "1.0.1",
+  "@sanjo/jasmine-expect": "1.0.0"
+});
 
 Package.onUse(function (api) {
   api.versionsFrom("METEOR@1.3");
@@ -47,9 +51,6 @@ Package.onUse(function (api) {
 Package.onTest(function (api) {
   api.use("underscore");
   api.use("random");
-  api.use("sanjo:jasmine@0.21.0");
-  api.use("velocity:html-reporter@0.9.1");
-  api.use("velocity:console-reporter@0.1.4");
 
   api.use("accounts-base@1.2.5", {weak: true});
   api.use("accounts-password@1.1.7", {weak: true});
@@ -61,6 +62,6 @@ Package.onTest(function (api) {
   api.use("reactioncommerce:reaction-paymentmethod");
 
   // server integration tests
-  api.addFiles("tests/jasmine/server/integration/methods.js", "server");
+  api.addFiles("server/methods.app-test.js", "server");
   api.export("faker", ["server"]);
 });
